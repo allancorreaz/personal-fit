@@ -2,6 +2,8 @@ import { Enviar } from "@/components/ui";
 import { exigirAluno } from "@/lib/supabase/server";
 import { formatDataHora } from "@/lib/formato";
 import { salvarAnamnese } from "../actions";
+import { TrocarSenha } from "@/components/trocar-senha";
+import { Aviso } from "@/components/aviso";
 
 export const metadata = { title: "Perfil" };
 
@@ -35,6 +37,8 @@ export default async function PerfilPage({ searchParams }: { searchParams: Promi
         <p className="suave pequeno">Personal: {aluno.personais?.nome_marca || aluno.personais?.nome}</p>
         <form action="/sair" method="post"><button className="botao botao-sec botao-peq">Sair</button></form>
       </div>
+      {ok === "Senha alterada." || (erro && erro !== "1") ? <Aviso ok={ok === "Senha alterada." ? ok : undefined} erro={erro !== "1" ? erro : undefined} /> : null}
+      <TrocarSenha volta="/app/perfil" />
 
       <section className="cartao pilha">
         <h2>Anamnese (PAR-Q)</h2>
@@ -42,8 +46,8 @@ export default async function PerfilPage({ searchParams }: { searchParams: Promi
           Só o seu personal vê estas respostas. Se responder &quot;sim&quot; a alguma das 7 primeiras, procure um médico antes de aumentar a intensidade.
           {ultima && ` Última atualização: ${formatDataHora(ultima.preenchida_em)}.`}
         </p>
-        {ok && <div className="aviso aviso-ok">Respostas enviadas ao seu personal.</div>}
-        {erro && <div className="aviso aviso-erro">Não foi possível salvar.</div>}
+        {ok === "1" && <div className="aviso aviso-ok">Respostas enviadas ao seu personal.</div>}
+        {erro === "1" && <div className="aviso aviso-erro">Não foi possível salvar.</div>}
         <form action={salvarAnamnese} className="pilha">
           {PERGUNTAS.map(({ q, tipo }) => (
             <label key={q} className="campo">

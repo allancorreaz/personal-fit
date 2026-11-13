@@ -4,6 +4,7 @@ import { exigirPersonal } from "@/lib/supabase/server";
 import { urlBase } from "@/lib/url";
 import { formatDataHora } from "@/lib/formato";
 import { salvarMercadoPago, salvarPerfil } from "../actions";
+import { TrocarSenha } from "@/components/trocar-senha";
 
 export const metadata = { title: "Configurações" };
 
@@ -54,6 +55,8 @@ export default async function ConfigPage({ searchParams }: { searchParams: Param
           <Enviar>Salvar e testar</Enviar>
         </form>
       </section>
+
+      <TrocarSenha volta="/painel/configuracoes" />
     </div>
   );
 }
